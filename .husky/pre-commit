@@ -15,6 +15,6 @@ fi
 if npm run sec --silent; then
   echo "✅ Security check"
 else
-  echo "❌ Security check"
+  echo "❌ Security check: Check trivy-report."
   exit 1
 fi
