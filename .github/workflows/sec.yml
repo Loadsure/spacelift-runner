@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
+      security-events: write
+      actions: read
 
     steps:
       - name: Checkout code
