@@ -1,0 +1,9 @@
+failure-threshold: warning
+format: tty
+ignored:
+  - DL3007 # Required for spacelift runner base image
+trustedRegistries:
+  - docker.io
+  - gcr.io
+  - ghcr.io
+  - public.ecr.aws

@@ -1,0 +1,46 @@
+name: Build Spacelift Runner
+
+on:
+  push:
+    branches:
+      - feat/ops-557-spacelift
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set Image Name
+        id: image
+        run: echo "IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/spacelift-runner" >> $GITHUB_ENV
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha
+
+      - name: Build and push Spacelift Runner image
+        uses: docker/build-push-action@v6
+        with:
+          context: ops/spacelift-runner
+          file: ops/spacelift-runner/Dockerfile
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          push: true

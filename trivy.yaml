@@ -1,0 +1,21 @@
+quiet: true
+timeout: 1m
+format: table
+dependency-tree: true
+severity:
+  - HIGH
+  - CRITICAL
+
+scan:
+  skip-dirs:
+    - node_modules
+  skip-files:
+    - .env
+    - .env.*
+    - .gitignore
+    - .trivyignore
+    - .trivy.yaml
+  security-checks:
+    - vuln
+    - config
+    - secret

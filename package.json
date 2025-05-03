@@ -1,0 +1,13 @@
+{
+  "name": "spacelift-runner",
+  "version": "1.0.0",
+  "description": "Public image for Spacelift.",
+  "main": "src/index.js",
+  "scripts": {
+    "prepare": "husky",
+    "lint:docker": "hadolint Dockerfile"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
