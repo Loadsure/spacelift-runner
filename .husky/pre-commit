@@ -1,1 +1,9 @@
-npm run lint:docker
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+if npm run lint:docker --silent; then
+  echo "✅ Docker lint"
+else
+  echo "❌ Docker lint"
+  exit 1
+fi
