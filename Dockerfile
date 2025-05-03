@@ -33,7 +33,7 @@ RUN apk -U upgrade && apk add --no-cache \
 COPY --from=spacelift /tmp/terraform /bin/terraform
 COPY --from=spacelift /tmp/tflint /bin/tflint
 
-LABEL org.opencontainers.image.source=https://github.com/Loadsure/loadsure-iac
+LABEL org.opencontainers.image.source=https://github.com/Loadsure/spacelift-runner
 
 RUN echo "hosts: files dns" > /etc/nsswitch.conf && \
   adduser --disabled-password --uid=1983 spacelift && \
