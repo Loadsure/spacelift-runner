@@ -5,6 +5,13 @@ else
   exit 1
 fi
 
+if npm run lint:markdown --silent; then
+  echo "✅ Markdown lint"
+else
+  echo "❌ Markdown lint"
+  exit 1
+fi
+
 if npm run sec --silent; then
   echo "✅ Security check"
 else

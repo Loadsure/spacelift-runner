@@ -31,6 +31,11 @@ stack_defaults:
   runner_image: gchr.io/my-repo/spacelift-runner:latest
 ```
 
+### Build
+
+The image is built in GitHub Actions and pushed to the Github Container Registry. Its built on push to main, and listens
+to changes on the `Dockerfile` and `.github/workflows/build.yml` files.
+
 ## Development
 
 ### Requirements

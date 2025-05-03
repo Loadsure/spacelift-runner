@@ -6,9 +6,11 @@
   "scripts": {
     "prepare": "husky",
     "lint:docker": "hadolint Dockerfile",
-    "sec": "trivy config ."
+    "lint:markdown": "npx markdownlint -i node_modules -d -c .markdownlint.yaml .",
+    "sec": "trivy config -q --exit-code 1 . "
   },
   "devDependencies": {
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "markdownlint-cli": "^0.44.0"
   }
 }
