@@ -19,7 +19,7 @@ resource "spacelift_stack" "my_stack" {
   name         = "hello-world"
   project_root = "."
   repository   = "core-infra"
-  runner_image = "gchr.io/my-repo/spacelift-runner:latest"
+  runner_image = "gchr.io/loadsure/spacelift-runner:latest"
 }
 ```
 
@@ -28,7 +28,7 @@ resource "spacelift_stack" "my_stack" {
 version: "2"
 
 stack_defaults:
-  runner_image: gchr.io/my-repo/spacelift-runner:latest
+  runner_image: gchr.io/loadsure/spacelift-runner:latest
 ```
 
 ### Build
@@ -42,3 +42,12 @@ to changes on the `Dockerfile` and `.github/workflows/build.yml` files.
 
 - [Trivy](https://trivy.dev/latest/) - `brew install trivy`
 - [Hadolint](https://github.com/hadolint/hadolint) - `brew install hadolint`
+
+### Build and push locally
+
+```bash
+export GITHUB_TOKEN=<your_github_token>
+echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+docker build -t gchr.io/loadsure/spacelift-runner:latest .
+docker push gchr.io/loadsure/spacelift-runner:latest
+```
