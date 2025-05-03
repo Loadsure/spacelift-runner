@@ -7,14 +7,9 @@ severity:
   - CRITICAL
 
 scan:
-  skip-dirs:
-    - node_modules
   skip-files:
     - .env
     - .env.*
-    - .gitignore
-    - .trivyignore
-    - .trivy.yaml
   security-checks:
     - vuln
     - config
