@@ -38,8 +38,7 @@ jobs:
       - name: Build and push Spacelift Runner image
         uses: docker/build-push-action@v6
         with:
-          context: ops/spacelift-runner
-          file: ops/spacelift-runner/Dockerfile
+          file: Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
