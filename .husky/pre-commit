@@ -1,9 +1,13 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 if npm run lint:docker --silent; then
   echo "✅ Docker lint"
 else
   echo "❌ Docker lint"
+  exit 1
+fi
+
+if npm run sec --silent; then
+  echo "✅ Security check"
+else
+  echo "❌ Security check"
   exit 1
 fi

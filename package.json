@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "prepare": "husky",
-    "lint:docker": "hadolint Dockerfile"
+    "lint:docker": "hadolint Dockerfile",
+    "sec": "trivy config ."
   },
   "devDependencies": {
     "husky": "^9.1.7"
