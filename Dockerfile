@@ -5,6 +5,7 @@ FROM public.ecr.aws/spacelift/runner-terraform:latest AS spacelift
 
 ARG TERRAFORM_VERSION=1.11.4
 ARG TFLINT_VERSION=0.56.0
+ARG TRIVY_VERSION=0.62.0
 
 WORKDIR /tmp
 
@@ -15,6 +16,10 @@ RUN curl -O -L https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/ter
 RUN curl -O -L https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VERSION}/tflint_linux_amd64.zip \
   && unzip tflint_linux_amd64.zip \
   && chmod +x tflint
+
+RUN curl -O -L https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz \
+  && tar -zxf trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz\
+  && chmod +x trivy
 
 ####################################
 # Arifact for the Spacelift Runner #
@@ -32,6 +37,7 @@ RUN apk -U upgrade && apk add --no-cache \
 
 COPY --from=spacelift /tmp/terraform /bin/terraform
 COPY --from=spacelift /tmp/tflint /bin/tflint
+COPY --from=spacelift /tmp/trivy /bin/trivy
 
 LABEL org.opencontainers.image.source=https://github.com/Loadsure/spacelift-runner
 
