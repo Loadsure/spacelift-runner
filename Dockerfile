@@ -56,7 +56,8 @@ LABEL org.opencontainers.image.source=https://github.com/Loadsure/spacelift-runn
 
 RUN echo "hosts: files dns" > /etc/nsswitch.conf && \
   adduser --disabled-password --uid=1983 spacelift && \
-  ln -s /bin/terraform /usr/local/bin/terraform
+  ln -s /bin/terraform /usr/local/bin/terraform && \
+  ln -s /bin/terragrunt /usr/local/bin/terragrunt
 
 USER spacelift
 
