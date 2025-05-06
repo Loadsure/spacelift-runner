@@ -6,6 +6,7 @@ FROM public.ecr.aws/spacelift/runner-terraform:latest AS spacelift
 ARG TERRAFORM_VERSION=1.11.4
 ARG TFLINT_VERSION=0.56.0
 ARG TRIVY_VERSION=0.62.0
+ARG TFLINT_GOOGLE_PLUGIN_VERSION=0.32.0
 
 WORKDIR /tmp
 
@@ -21,10 +22,16 @@ RUN curl -O -L https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_
   && tar -zxf trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz\
   && chmod +x trivy
 
+RUN curl -O -L https://github.com/terraform-linters/tflint-ruleset-google/releases/download/v${TFLINT_GOOGLE_PLUGIN_VERSION}/tflint-ruleset-google_linux_amd64.zip \
+    && unzip tflint-ruleset-google_linux_amd64.zip \
+    && chmod +x tflint-ruleset-google
+
 ####################################
 # Arifact for the Spacelift Runner #
 ####################################
 FROM alpine:3.21 AS artifact
+
+ARG TFLINT_GOOGLE_PLUGIN_VERSION=0.32.0
 
 RUN apk -U upgrade && apk add --no-cache \
   bash=5.2.37-r0 \
@@ -46,3 +53,8 @@ RUN echo "hosts: files dns" > /etc/nsswitch.conf && \
   ln -s /bin/terraform /usr/local/bin/terraform
 
 USER spacelift
+
+# Offline google ruleset
+COPY --from=spacelift /tmp/tflint-ruleset-google /home/spacelift/.tflint.d/plugins/github.com/terraform-linters/tflint-ruleset-google/${TFLINT_GOOGLE_PLUGIN_VERSION}/tflint-ruleset-google
+RUN chown -R spacelift:spacelift /home/spacelift/.tflint.d/plugins/github.com/terraform-linters/tflint-ruleset-google/${TFLINT_GOOGLE_PLUGIN_VERSION}/tflint-ruleset-google \
+  && chmod -R 755 /home/spacelift/.tflint.d/plugins/github.com/terraform-linters/tflint-ruleset-google/${TFLINT_GOOGLE_PLUGIN_VERSION}/tflint-ruleset-google
