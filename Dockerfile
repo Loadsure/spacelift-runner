@@ -7,7 +7,6 @@ ARG TERRAFORM_VERSION=1.11.4
 ARG TFLINT_VERSION=0.56.0
 ARG TRIVY_VERSION=0.62.0
 ARG TFLINT_GOOGLE_PLUGIN_VERSION=0.32.0
-ARG TERRAGRUNT_VERSION=0.78.1
 
 WORKDIR /tmp
 
@@ -26,10 +25,6 @@ RUN curl -O -L https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_
 RUN curl -O -L https://github.com/terraform-linters/tflint-ruleset-google/releases/download/v${TFLINT_GOOGLE_PLUGIN_VERSION}/tflint-ruleset-google_linux_amd64.zip \
     && unzip tflint-ruleset-google_linux_amd64.zip \
     && chmod +x tflint-ruleset-google
-
-RUN curl -O -L https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_arm64 \
-    && chmod +x terragrunt_linux_arm64 \
-    && mv terragrunt_linux_arm64 terragrunt
 
 ####################################
 # Arifact for the Spacelift Runner #
@@ -50,7 +45,6 @@ RUN apk -U upgrade && apk add --no-cache \
 COPY --from=spacelift /tmp/terraform /bin/terraform
 COPY --from=spacelift /tmp/tflint /bin/tflint
 COPY --from=spacelift /tmp/trivy /bin/trivy
-COPY --from=spacelift /tmp/terragrunt /bin/terragrunt
 
 LABEL org.opencontainers.image.source=https://github.com/Loadsure/spacelift-runner
 
